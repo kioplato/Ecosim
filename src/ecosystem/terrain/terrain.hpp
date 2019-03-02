@@ -11,7 +11,7 @@ class Terrain {
 	private:
 		Tile** tiles;
 		size_t terrain_size;
-		void map_generator();
+		void terrain_generator();
 	public:
 		Terrain(size_t terrain_size);
 		~Terrain();
