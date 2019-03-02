@@ -9,8 +9,6 @@
 class Tile {
 	private:
 		char token;
-		// AnimalList animals;
-		// Plant* plant;
 	public:
 		Tile();
 		~Tile();
