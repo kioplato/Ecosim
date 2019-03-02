@@ -23,6 +23,8 @@ int main(void) {
 		cout << "2. Pop item." << endl;
 		cout << "3. Move left." << endl;
 		cout << "4. Move right." << endl;
+		cout << "5. Preview current node." << endl;
+		cout << "6. Pring number of items in list." << endl;
 		cout << "Option(0-4): "; cin >> option;
 		if (option == 0)
 			cout << "Exiting.." << endl;
@@ -36,8 +38,9 @@ int main(void) {
 			int *item = list.pop();
 			if (item == NULL)
 				cout << "The list is empty." << endl;
-			else
-				cout << *item << endl; }
+			else {
+				cout << *item << endl;
+				delete item; } }
 		else if (option == 3) {
 			cout << "Moving left." << endl;
 			if (list.move_left() == false)
@@ -46,8 +49,17 @@ int main(void) {
 			cout << "Moving right." << endl;
 			if (list.move_right() == false)
 				cout << "Failed to move right." << endl; }
+		else if (option == 5) {
+			cout << "Previewing current node." << endl;
+			int *item = list.get_data();
+			if (item == NULL)
+				cout << "The list is empty." << endl;
+			else
+				cout << *item << endl; }
+		else if (option == 6) {
+			cout << "Printing number of items in list." << endl;
+			cout << list.get_n_items() << endl; }
 		else cout << "Unknown option." << endl;
 	}
-
 	return 0;
 }
