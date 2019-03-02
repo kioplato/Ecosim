@@ -13,7 +13,7 @@
 using namespace std;
 /********************/
 
-int main(int argc, char *argv[]) {
+int main(void) {
 	List<int> list;
 	size_t next_number = 1;
 	size_t option = 1;
