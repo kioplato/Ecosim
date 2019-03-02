@@ -53,6 +53,7 @@ List<T>::~List()
 		delete current->prev->data;
 		delete current->prev;
 	}
+	delete header;
 }
 
 template <class T>
