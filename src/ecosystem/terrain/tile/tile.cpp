@@ -12,3 +12,7 @@ bool Tile::set_habitat(char token) {
 	this->token = token;
 	return true;
 }
+
+char Tile::get_habitat() const {
+	return token;
+}
