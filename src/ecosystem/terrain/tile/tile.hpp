@@ -15,6 +15,7 @@ class Tile {
 		bool set_habitat(char token);
 		char get_habitat() const;
 		bool has_habitat() const;
+		bool has_habitat(char token) const;
 };
 
 #endif  // #ifndef TILE_HPP
