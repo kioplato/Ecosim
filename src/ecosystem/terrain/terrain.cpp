@@ -56,3 +56,17 @@ void Terrain::generate_river() {
 		}
 	}
 }
+
+void Terrain::generate_lake() {
+	size_t lake_size = terrain_size / 4;
+	cout << "Creating lake with size: " << lake_size << endl;
+	// The lake will have 1 tile from each side of the grid (-1 * 2).
+	// The lake will cover lake_size tiles from the starting point (lake_size - 1).
+	size_t possible_starts = terrain_size - 1 - 1 - (lake_size - 1);
+	// +1 to separate the start_row from the edge of the grid - to add margin.
+	size_t start_row = (rand() % possible_starts) + 1;
+	size_t start_col = (rand() % possible_starts) + 1;
+	for (size_t c_row = start_row; c_row < lake_size + start_row; c_row++)
+		for (size_t c_col = start_col; c_col < lake_size + start_col; c_col++)
+			tiles[c_row][c_col].set_habitat('#');
+}
