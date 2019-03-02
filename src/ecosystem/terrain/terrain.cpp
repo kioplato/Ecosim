@@ -13,3 +13,13 @@ Terrain::Terrain(size_t terrain_size)
 Terrain::~Terrain() {
 	// TODO: Free memory for tiles
 }
+
+void Terrain::terrain_generator() {
+	tiles = new Tile *[terrain_size];
+	for (size_t c_row = 0; c_row < terrain_size; c_row++)
+		tiles[c_row] = new Tile[terrain_size];
+	generate_river();
+	generate_lake();
+	generate_hills();
+	generate_meadow();
+}
