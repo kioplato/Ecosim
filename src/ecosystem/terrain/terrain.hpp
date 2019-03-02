@@ -12,6 +12,7 @@ class Terrain {
 		Tile** tiles;
 		size_t terrain_size;
 		void terrain_generator();
+		void generate_river();
 	public:
 		Terrain(size_t terrain_size);
 		~Terrain();
