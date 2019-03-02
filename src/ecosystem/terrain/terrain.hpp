@@ -3,14 +3,8 @@
 #ifndef TERRAIN_HPP
 #define TERRAIN_HPP
 
-/* System headers */
-/******************/
-
 /* Custom headers */
 /******************/
-
-/* Namespace access */
-/********************/
 
 class Terrain {
 	private:
