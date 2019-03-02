@@ -15,6 +15,7 @@ class Terrain {
 		void generate_river();
 		void generate_lake();
 		void generate_hills();
+		void generate_meadow();
 	public:
 		Terrain(size_t terrain_size);
 		~Terrain();
