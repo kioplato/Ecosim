@@ -135,3 +135,10 @@ void Terrain::generate_hills() {
 		}
 	}
 }
+
+void Terrain::generate_meadow() {
+	for (size_t c_row = 0; c_row < terrain_size; c_row++)
+		for (size_t c_col = 0; c_col < terrain_size; c_col++)
+			if (tiles[c_row][c_col].has_habitat() == false)
+				tiles[c_row][c_col].set_habitat('"');
+}
