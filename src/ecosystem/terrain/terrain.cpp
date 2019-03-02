@@ -70,3 +70,68 @@ void Terrain::generate_lake() {
 		for (size_t c_col = start_col; c_col < lake_size + start_col; c_col++)
 			tiles[c_row][c_col].set_habitat('#');
 }
+
+/* TODO: Implement a function that takes starting point and ending point and fills it with hills.
+ * Also checks if the ending point is out of the grid's size. If there is water or other habitat
+ * then it just ignores it, does not overwrite it, and continues to place hills. (Using nested fors) */
+void generate_2x2_hill(size_t point_x, size_t point_y, Tile **tiles) {
+	if (tiles[point_x][point_y].has_habitat() == false)
+		tiles[point_x][point_y].set_habitat('^');
+	if (tiles[point_x + 1][point_y].has_habitat() == false)
+		tiles[point_x + 1][point_y].set_habitat('^');
+	if (tiles[point_x][point_y + 1].has_habitat() == false)
+		tiles[point_x][point_y + 1].set_habitat('^');
+	if (tiles[point_x + 1][point_y + 1].has_habitat() == false)
+		tiles[point_x + 1][point_y + 1].set_habitat('^');
+}
+
+void generate_3x3_hill(size_t point_x, size_t point_y, Tile **tiles, size_t terrain_size) {
+	generate_2x2_hill(point_x, point_y, tiles);
+	if (point_x + 2 > terrain_size - 1) return;
+	if (point_y + 2 > terrain_size - 1) return;
+	if (tiles[point_x + 2][point_y].has_habitat() == false)
+		tiles[point_x + 2][point_y].set_habitat('^');
+	if (tiles[point_x][point_y + 2].has_habitat() == false)
+		tiles[point_x][point_y + 2].set_habitat('^');
+	if (tiles[point_x + 2][point_y + 1].has_habitat() == false)
+		tiles[point_x + 2][point_y + 1].set_habitat('^');
+	if (tiles[point_x + 1][point_y + 2].has_habitat() == false)
+		tiles[point_x + 1][point_y + 2].set_habitat('^');
+	if (tiles[point_x + 2][point_y + 2].has_habitat() == false)
+		tiles[point_x + 2][point_y + 2].set_habitat('^');
+}
+
+void generate_4x4_hill(size_t point_x, size_t point_y, Tile **tiles, size_t terrain_size) {
+	generate_3x3_hill(point_x, point_y, tiles, terrain_size);
+	if (point_x + 3 > terrain_size - 1) return;
+	if (point_y + 3 > terrain_size - 1) return;
+	if (tiles[point_x + 3][point_y].has_habitat() == false)
+		tiles[point_x + 3][point_y].set_habitat('^');
+	if (tiles[point_x + 3][point_y + 1].has_habitat() == false)
+		tiles[point_x + 3][point_y + 1].set_habitat('^');
+	if (tiles[point_x + 3][point_y + 2].has_habitat() == false)
+		tiles[point_x + 3][point_y + 2].set_habitat('^');
+	if (tiles[point_x][point_y + 3].has_habitat() == false)
+		tiles[point_x][point_y + 3].set_habitat('^');
+	if (tiles[point_x + 1][point_y + 3].has_habitat() == false)
+		tiles[point_x + 1][point_y + 3].set_habitat('^');
+	if (tiles[point_x + 2][point_y + 3].has_habitat() == false)
+		tiles[point_x + 2][point_y + 3].set_habitat('^');
+	if (tiles[point_x + 3][point_y + 3].has_habitat() == false)
+		tiles[point_x + 3][point_y + 3].set_habitat('^');
+}
+
+void Terrain::generate_hills() {
+	// TODO: Why terrain_size - 1?
+	for (size_t c_row = 0; c_row < terrain_size - 1; c_row++) {
+		for (size_t c_col = 0; c_col < terrain_size - 1; c_col++) {
+			if (tiles[c_row][c_col].has_habitat()) continue;
+			if (rand() % 100 < 20) {
+				size_t percent = rand() % 100;
+				if (percent >= 40) generate_2x2_hill(c_row, c_col, tiles);
+				else if (percent >= 15) generate_3x3_hill(c_row, c_col, tiles, terrain_size);
+				else generate_4x4_hill(c_row, c_col, tiles, terrain_size);
+			}
+		}
+	}
+}
