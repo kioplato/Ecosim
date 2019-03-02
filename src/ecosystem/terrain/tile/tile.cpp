@@ -16,3 +16,8 @@ bool Tile::set_habitat(char token) {
 char Tile::get_habitat() const {
 	return token;
 }
+
+bool Tile::has_habitat() const {
+	if (token == 0) return false;
+	return true;
+}
