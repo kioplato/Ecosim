@@ -3,14 +3,8 @@
 #ifndef TILE_HPP
 #define TILE_HPP
 
-/* System headers */
-/******************/
-
 /* Custom headers */
 /******************/
-
-/* Namespace access */
-/********************/
 
 class Tile {
 	private:
