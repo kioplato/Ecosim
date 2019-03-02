@@ -4,6 +4,7 @@
 #define TERRAIN_HPP
 
 /* Custom headers */
+#include "tile/tile.hpp"
 /******************/
 
 class Terrain {
