@@ -21,12 +21,14 @@ class List {
 		};
 		Node *header;
 		Node *current;
+		size_t n_items;
 	public:
 		List();
 		~List();
 		void push(T *data);
 		T *pop();  // Deletes the node, returns the data.
 		T *get_data() const;
+		size_t get_n_items() const;
 		bool move_left();
 		bool move_right();
 		void move_start();
@@ -34,7 +36,7 @@ class List {
 
 template <class T>
 List<T>::List()
-	: header(NULL), current(NULL)
+	: header(NULL), current(NULL), n_items(0)
 {
 	header = new Node();
 	header->prev = NULL;
@@ -62,6 +64,7 @@ void List<T>::push(T *data) {
 	if (header->next != NULL) header->next->prev = node;
 	header->next = node;
 	if (current == NULL) current = header->next;
+	n_items++;
 }
 
 template <class T>
@@ -80,6 +83,7 @@ T *List<T>::pop() {
 	if (node->next != NULL)
 		node->next->prev = node->prev;
 	delete node;
+	n_items--;
 	return data;
 }
 
@@ -108,6 +112,11 @@ bool List<T>::move_right() {
 template <class T>
 void List<T>::move_start() {
 	current = header->next;
+}
+
+template <class T>
+size_t List<T>::get_n_items() const {
+	return n_items;
 }
 
 #endif  // #ifndef LIST_HPP
