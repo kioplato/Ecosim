@@ -12,7 +12,7 @@ class Tile {
 	public:
 		Tile();
 		~Tile();
-		void set_habitat(char token);
+		bool set_habitat(char token);
 };
 
 #endif  // #ifndef TILE_HPP
