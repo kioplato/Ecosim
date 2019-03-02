@@ -12,6 +12,7 @@ class Ecosystem {
 		Terrain terrain;
 	public:
 		Ecosystem(size_t terrain_size);
+		void print_system() const;
 };
 
 #endif  // #ifndef ECOSYSTEM_HPP
