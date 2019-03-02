@@ -9,3 +9,7 @@ Terrain::Terrain(size_t terrain_size)
 	if (terrain_size < 10) throw "Terrain size must be at least 10.";
 	map_generator();
 }
+
+Terrain::~Terrain() {
+	// TODO: Free memory for tiles
+}
