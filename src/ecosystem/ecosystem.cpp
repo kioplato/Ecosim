@@ -1,5 +1,9 @@
 // File: ecosystem.cpp
 
+/* System headers */
+#include <iostream>
+/******************/
+
 /* Custom headers */
 #include "ecosystem.hpp"
 /******************/
