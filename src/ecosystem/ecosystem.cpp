@@ -8,6 +8,10 @@
 #include "ecosystem.hpp"
 /******************/
 
+/* Namespace access */
+using namespace std;
+/********************/
+
 Ecosystem::Ecosystem(size_t terrain_size)
 	: terrain(terrain_size)
 { }
