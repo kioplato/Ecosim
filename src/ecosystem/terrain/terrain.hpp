@@ -3,6 +3,10 @@
 #ifndef TERRAIN_HPP
 #define TERRAIN_HPP
 
+/* System headers */
+#include <iostream>
+/******************/
+
 /* Custom headers */
 #include "tile/tile.hpp"
 /******************/
