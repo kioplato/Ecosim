@@ -8,13 +8,10 @@
 #include "ecosystem.hpp"
 /******************/
 
-Ecosystem::Ecosystem(size_t terrain_size, string season)
-	: terrain(terrain_size), day_of_year(1)
-{
-	if (season != "Summer" && season != "Winter" && season != "Fall" && season != "Autumn")
-		throw "Unknown season provided.";
-	this->season = season;
-}
+Ecosystem::Ecosystem(size_t terrain_size)
+	: terrain(terrain_size)
+{ }
+
 void Ecosystem::print_system() const {
 	size_t terrain_size = terrain.get_size();
 	for (size_t c_row = 0; c_row < terrain_size; c_row++) {
