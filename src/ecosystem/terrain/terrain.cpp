@@ -1,5 +1,9 @@
 // File: terrain.cpp
 
+/* System headers */
+#include <iostream>
+/******************/
+
 /* Custom headers */
 #include "terrain.hpp"
 /******************/
