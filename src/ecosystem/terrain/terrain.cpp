@@ -63,7 +63,6 @@ void Terrain::generate_river() {
 
 void Terrain::generate_lake() {
 	size_t lake_size = terrain_size / 4;
-	cout << "Creating lake with size: " << lake_size << endl;
 	// The lake will have 1 tile from each side of the grid (-1 * 2).
 	// The lake will cover lake_size tiles from the starting point (lake_size - 1).
 	size_t possible_starts = terrain_size - 1 - 1 - (lake_size - 1);
