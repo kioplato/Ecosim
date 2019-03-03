@@ -142,3 +142,7 @@ void Terrain::generate_meadow() {
 			if (tiles[c_row][c_col].has_habitat() == false)
 				tiles[c_row][c_col].set_habitat('"');
 }
+
+size_t Terrain::get_size() const {
+	return terrain_size;
+}
