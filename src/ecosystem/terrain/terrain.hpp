@@ -20,6 +20,7 @@ class Terrain {
 		Terrain(size_t terrain_size);
 		~Terrain();
 		size_t get_size() const;
+		char get_habitat(size_t row, size_t col) const;
 };
 
 #endif  // #ifndef TERRAIN_HPP
