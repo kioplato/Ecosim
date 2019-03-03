@@ -146,3 +146,9 @@ void Terrain::generate_meadow() {
 size_t Terrain::get_size() const {
 	return terrain_size;
 }
+
+char Terrain::get_habitat(size_t row, size_t col) const {
+	if (row > terrain_size) return 0;
+	if (col > terrain_size) return 0;
+	return tiles[row][col].get_habitat();
+}
