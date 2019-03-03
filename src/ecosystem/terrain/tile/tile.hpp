@@ -3,9 +3,6 @@
 #ifndef TILE_HPP
 #define TILE_HPP
 
-/* Custom headers */
-/******************/
-
 class Tile {
 	private:
 		char token;
