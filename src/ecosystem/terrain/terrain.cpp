@@ -146,6 +146,29 @@ void Terrain::generate_meadow() {
 				tiles[c_row][c_col].set_habitat('"');
 }
 
+void Terrain::place_plants(size_t n_grass, size_t n_algae, size_t n_maple, size_t n_oak, size_t n_pine) {
+	for (size_t chance = 5; chance < 100; chance += 5) {
+		for (size_t c_row = 0; c_row < terrain_size; c_row++) {
+			for (size_t c_col = 0; c_col < terrain_size; c_col++) {
+				if (rand() % 100 < chance) {
+					char habitat = tiles[c_row][c_col].get_habitat();
+					if (tiles[c_row][c_col].get_plant() != NULL) continue;
+					if (habitat == '#') {
+						if (n_algae != 0) tiles[c_row][c_col].add_plant(new Grass(c_row, c_col)); }
+					else if (habitat == '"') {
+						size_t option = rand() % 3;
+						if (option == 0) tiles[c_row][c_col].add_plant(new Maple(c_row, c_col));
+						else if (option == 1) tiles[c_row][c_col].add_plant(new Oak(c_row, c_col));
+						else if (option == 2) tiles[c_row][c_col].add_plant(new Grass(c_row, c_col)); }
+					else if (habitat == '^') {
+						if (rand() % 2 == 0) tiles[c_row][c_col].add_plant(new Pine(c_row, c_col));
+						else tiles[c_row][c_col].add_plant(new Maple(c_row, c_col)); }
+				}
+			}
+		}
+	}
+}
+
 size_t Terrain::get_size() const {
 	return terrain_size;
 }
