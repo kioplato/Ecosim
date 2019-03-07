@@ -20,6 +20,7 @@ class Terrain {
 		void generate_lake();
 		void generate_hills();
 		void generate_meadow();
+		void place_plants();
 	public:
 		Terrain(size_t terrain_size);
 		~Terrain();
