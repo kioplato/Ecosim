@@ -49,9 +49,10 @@ List<T>::~List()
 {
 	current = header->next;
 	while (current != NULL) {
+		Node *tmp = current;
 		current = current->next;
-		delete current->prev->data;
-		delete current->prev;
+		//delete tmp->data;
+		delete tmp;
 	}
 	delete header;
 }
