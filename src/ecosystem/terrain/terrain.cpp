@@ -6,7 +6,18 @@
 
 /* Custom headers */
 #include "terrain.hpp"
+#include "../misc/habitat_masks.hpp"
+#include "../plant/seedless/grass/grass.hpp"
+#include "../plant/seedless/algae/algae.hpp"
+#include "../plant/seeded/oak/oak.hpp"
+#include "../plant/seeded/pine/pine.hpp"
+#include "../plant/seeded/maple/maple.hpp"
 /******************/
+
+/* Namespace access */
+using namespace std;
+using namespace habitat_masks;
+/********************/
 
 Terrain::Terrain(size_t terrain_size)
 	: tiles(NULL), terrain_size(terrain_size) {
@@ -15,7 +26,9 @@ Terrain::Terrain(size_t terrain_size)
 }
 
 Terrain::~Terrain() {
-	// TODO: Free memory for tiles
+	for (size_t c_row = 0; c_row < terrain_size; c_row++)
+		delete[] tiles[c_row];
+	delete[] tiles;
 }
 
 void Terrain::terrain_generator() {
@@ -26,6 +39,7 @@ void Terrain::terrain_generator() {
 	generate_lake();
 	generate_hills();
 	generate_meadow();
+	place_plants(1, 1, 1, 1, 1);
 }
 
 void Terrain::generate_river() {
@@ -125,11 +139,10 @@ void generate_4x4_hill(size_t point_x, size_t point_y, Tile **tiles, size_t terr
 }
 
 void Terrain::generate_hills() {
-	// TODO: Why terrain_size - 1?
 	for (size_t c_row = 0; c_row < terrain_size - 1; c_row++) {
 		for (size_t c_col = 0; c_col < terrain_size - 1; c_col++) {
 			if (tiles[c_row][c_col].has_habitat()) continue;
-			if (rand() % 100 < 20) {
+			if (rand() % 100 < 10) {
 				size_t percent = rand() % 100;
 				if (percent >= 40) generate_2x2_hill(c_row, c_col, tiles);
 				else if (percent >= 15) generate_3x3_hill(c_row, c_col, tiles, terrain_size);
@@ -146,6 +159,30 @@ void Terrain::generate_meadow() {
 				tiles[c_row][c_col].set_habitat('"');
 }
 
+void Terrain::place_plants(size_t n_grass, size_t n_algae, size_t n_maple, size_t n_oak, size_t n_pine) {
+	if (Plant::set_terrain(this) == false) cerr << "In Terrain::place_plants(): Could not set Plant's terrain." << endl;
+	for (size_t chance = 2; chance < 100; chance += 2) {
+		for (size_t c_row = 0; c_row < terrain_size; c_row++) {
+			for (size_t c_col = 0; c_col < terrain_size; c_col++) {
+				if ((size_t)rand() % 100 < chance) {
+					char habitat = tiles[c_row][c_col].get_habitat();
+					if (tiles[c_row][c_col].get_plant() != NULL) continue;
+					if (habitat == '#') {
+						if (n_algae != 0) { add_plant(new Algae(c_row, c_col), c_row, c_col); n_algae--; } }
+					else if (habitat == '"') {
+						size_t option = rand() % 3;
+						if (option == 0 && n_maple != 0) { add_plant(new Maple(c_row, c_col), c_row, c_col); n_maple--; }
+						else if ((option == 0 || option == 1) && n_oak != 0) { add_plant(new Oak(c_row, c_col), c_row, c_col); n_oak--; }
+						else if (n_grass != 0) { add_plant(new Grass(c_row, c_col), c_row, c_col); n_grass--; } }
+					else if (habitat == '^') {
+						if (rand() % 2 == 0 && n_pine != 0) { add_plant(new Pine(c_row, c_col), c_row, c_col); n_pine--; }
+						else if (n_maple != 0) { add_plant(new Maple(c_row, c_col), c_row, c_col); n_maple--; } }
+				}
+			}
+		}
+	}
+}
+
 size_t Terrain::get_size() const {
 	return terrain_size;
 }
@@ -154,4 +191,53 @@ char Terrain::get_habitat(size_t row, size_t col) const {
 	if (row > terrain_size) return 0;
 	if (col > terrain_size) return 0;
 	return tiles[row][col].get_habitat();
+}
+
+char Terrain::find_free_tile(size_t row, size_t col, char habitat_mask) {
+	if (row > terrain_size - 1 || col > terrain_size - 1) {
+		cerr << "In Terrain::find_free_tile: requested tile is out of bounds." << endl;
+		exit(7); }
+	if (col - 1 < terrain_size) {
+		if (tiles[row][col - 1].get_plant() == NULL) {
+			char habitat = tiles[row][col - 1].get_habitat();
+			if (habitat == '#' && ((habitat_mask & WATER) == WATER)) return 'W';
+			if (habitat == '^' && ((habitat_mask & HILL) == HILL)) return 'W';
+			if (habitat == '"' && ((habitat_mask & MEADOW) == MEADOW)) return 'W'; } }
+	if (col + 1 < terrain_size) {
+		if (tiles[row][col + 1].get_plant() == NULL) {
+			char habitat = tiles[row][col + 1].get_habitat();
+			if (habitat == '#' && ((habitat_mask & WATER) == WATER)) return 'E';
+			if (habitat == '^' && ((habitat_mask & HILL) == HILL)) return 'E';
+			if (habitat == '"' && ((habitat_mask & MEADOW) == MEADOW)) return 'E'; } }
+	if (row + 1 < terrain_size) {
+		if (tiles[row + 1][col].get_plant() == NULL) {
+			char habitat = tiles[row + 1][col].get_habitat();
+			if (habitat == '#' && ((habitat_mask & WATER) == WATER)) return 'S';
+			if (habitat == '^' && ((habitat_mask & HILL) == HILL)) return 'S';
+			if (habitat == '"' && ((habitat_mask & MEADOW) == MEADOW)) return 'S'; } }
+	if (row - 1 < terrain_size) {
+		if (tiles[row - 1][col].get_plant() == NULL) {
+			char habitat = tiles[row - 1][col].get_habitat();
+			if (habitat == '#' && ((habitat_mask & WATER) == WATER)) return 'N';
+			if (habitat == '^' && ((habitat_mask & HILL) == HILL)) return 'N';
+			if (habitat == '"' && ((habitat_mask & MEADOW) == MEADOW)) return 'N'; } }
+	return 0;
+}
+
+bool Terrain::add_plant(Plant *plant, size_t row, size_t col) {
+	if (tiles[row][col].get_plant() != NULL) return false;
+	tiles[row][col].add_plant(plant);
+	plants.push(plant);
+	return true;
+}
+
+Plant *Terrain::get_plant(size_t row, size_t col) const {
+	if (row > terrain_size - 1 || col > terrain_size - 1) {
+		cerr << "In Terrain::get_plant: tile requested is out of bounds." << endl;
+		exit(3); }
+	return tiles[row][col].get_plant();
+}
+
+List<Plant> &Terrain::get_plants() {
+	return plants;
 }
