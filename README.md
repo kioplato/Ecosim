@@ -1,5 +1,5 @@
 # Ecosim
-An ecosystem silumation focusing on elegant C++ design.
+An ecosystem simulation focusing on elegant C++ design.
 
 ## Authors
 Platon Kiorpelidis sdi1400327
