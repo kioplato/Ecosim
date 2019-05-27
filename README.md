@@ -2,8 +2,7 @@
 An ecosystem simulation focusing on elegant C++ design.
 
 ## Compile
-A makefile configuration file is provided for the make utility.
-Run:
+To compile run:
 ```
 $ make
 ```
