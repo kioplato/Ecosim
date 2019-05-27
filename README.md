@@ -9,6 +9,7 @@ $ make
 
 ## Run
 The executable file is placed under the bin/ directory.
+
 To run the program:
 ```
 $ ./bin/ecosim
